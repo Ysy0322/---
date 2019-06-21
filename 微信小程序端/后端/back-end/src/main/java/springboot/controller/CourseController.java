@@ -137,39 +137,47 @@ public class CourseController {
     }
 
     //查询学生已参与的课程
-    @RequestMapping(value = "/myCourse", method = RequestMethod.POST)
-    public @ResponseBody Object myCourse(@RequestBody Student request) throws IOException {
+    //该学生已参与课程
+    @RequestMapping(value = "/myCourse", method = RequestMethod.GET)
+    public @ResponseBody Object myCourse(@Param("studentNickName") String studentNickName ) throws IOException {
         SqlSession sqlSession = SqlSessionLoader.getSqlSession();
 //        studentNickName="Jong Dae";
-        Student student=sqlSession.selectOne("resources.mapper.StudentMapper.findStuByNickName", request.getStudentNickName());
-//        List<CourseResponse> course = sqlSession.selectList("resources.mapper.StudentMapper.listMyCourse",student.getStudentID());
-//        List<CourseResponse> result=new LinkedList<CourseResponse>();
-//        for(int i=0;i<course.size();i++){
-//            if(course.get(i).getStudentNickName().equals(studentNickName)){
-//                result.add(course.get(i));
-//            }
-//        }
-        if(student!=null){
-            List<CourseResponse> course = sqlSession.selectList("resources.mapper.StudentMapper.listMyCourse",student.getStudentID());
-            if (course != null) {
-                sqlSession.close();
-                return course;
-            }else {
-                sqlSession.close();
-                return new ErrorResponse("没有参与课程da"+request.getStudentNickName());
+        List<CourseResponse> course = sqlSession.selectList("resources.mapper.StudentMapper.listMyCourse");
+        List<CourseResponse> result=new LinkedList<CourseResponse>();
+        for(int i=0;i<course.size();i++){
+            if(course.get(i).getStudentNickName().equals(studentNickName)){
+                result.add(course.get(i));
             }
-        }else {
-            sqlSession.close();
-            return new ErrorResponse("没有该学生"+request.getStudentNickName());
         }
-//        if (course != null) {
-//            sqlSession.close();
-//            return new ErrorResponse("没有参与课程nnn"+studentNickName+student.getStudentID());
-//        } else {
-//            sqlSession.close();
-//            return new ErrorResponse("没有参与课程da"+studentNickName);
-//        }
+        if (course != null) {
+        sqlSession.close();
+        if(result.size()!=0) return result;
+        return new ErrorResponse("没有参与课程nnn"+studentNickName);
+    } else {
+        sqlSession.close();
+        return new ErrorResponse("没有参与课程da"+studentNickName);
     }
+}
+//    @RequestMapping(value = "/myCourse", method = RequestMethod.POST)
+//    public @ResponseBody Object myCourse(@RequestBody Student request) throws IOException {
+//        SqlSession sqlSession = SqlSessionLoader.getSqlSession();
+////        studentNickName="Jong Dae";
+//        Student student=sqlSession.selectOne("resources.mapper.StudentMapper.findStuByNickName", request.getStudentNickName());
+//
+//        if(student!=null){
+//            List<CourseResponse> course = sqlSession.selectList("resources.mapper.StudentMapper.listMyCourse",student.getStudentID());
+//            if (course != null) {
+//                sqlSession.close();
+//                return course;
+//            }else {
+//                sqlSession.close();
+//                return new ErrorResponse("没有参与课程da"+request.getStudentNickName());
+//            }
+//        }else {
+//            sqlSession.close();
+//            return new ErrorResponse("没有该学生"+request.getStudentNickName());
+//        }
+//    }
 
     //搜索课程---搜索框
     @RequestMapping(value = "/searchCourse", method = RequestMethod.POST)
