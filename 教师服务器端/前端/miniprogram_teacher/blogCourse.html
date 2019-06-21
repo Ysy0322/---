@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>课程详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co"/>
+    <meta name="keywords"
+          content="free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive"/>
+
+
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <meta property="og:site_name" content=""/>
+    <meta property="og:description" content=""/>
+    <meta name="twitter:title" content=""/>
+    <meta name="twitter:image" content=""/>
+    <meta name="twitter:url" content=""/>
+    <meta name="twitter:card" content=""/>
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="css/flexslider.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div id="fh5co-page">
+    <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+    <aside id="fh5co-aside" role="complementary" class="border js-fullheight">
+
+        <h1 id="fh5co-logo"><a href="index.html">学习通</a></h1>
+        <nav id="fh5co-main-menu" role="navigation">
+            <ul>
+                <li><a href="blog.html">随便看看</a></li>
+                <li><a href="myCourse.html">我的课程</a></li>
+                <li><a href="userInfo.html">个人信息</a></li>
+            </ul>
+        </nav>
+
+        <div class="fh5co-footer">
+            <p>
+                <small>©高级web课程</small>
+            </p>
+        </div>
+
+    </aside>
+
+
+    <!--右边内容-->
+    <div id="fh5co-main">
+        <div id="coursesDetail" v-cloak>
+            <div class="fh5co-narrow-content">
+
+                <!--课程海报-->
+                <div class="fh5co-more-contact">
+                    <div class="fh5co-narrow-content">
+                        <div class="row">
+                            <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+                                <img :src="courseDetail.courseImageURL" class="img-responsive"
+                                     alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></div>
+                            <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+                                <h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft">
+                                    {{courseDetail.courseName}}</h2>
+                                <p>价格：{{courseDetail.price}}</p>
+                                <p>主讲教师：{{teacherName.techName}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <!--课程具体内容-->
+                <div class="fh5co-more-contact">
+                    <div class="fh5co-narrow-content">
+                        <!--导航标签-->
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#introduction" data-toggle="tab">
+                                    课程介绍
+                                </a>
+                            </li>
+                            <li><a href="#menu" data-toggle="tab">目录</a></li>
+                            <li><a href="#review" data-toggle="tab">评论</a></li>
+                        </ul>
+                        <!--对应内容-->
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="introduction">
+                                <p>{{courseDetail.introduction}}</p>
+                                <br>
+                                <!--如果是本人开课可以编辑-->
+                                <div v-if="isMine" style="text-align:right">
+                                    <button class="btn btn-primary btn-lg" data-toggle="modal"
+                                            data-target="#changeIntro">
+                                        编辑
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="changeIntro" tabindex="-1" role="dialog"
+                                     aria-labelledby="changeIntroLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title" id="changeIntroLabel">
+                                                    编辑课程介绍
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body" contentEditable="true">
+                                                <p id="newIntroduction">{{courseDetail.introduction}}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                        onclick="updateIntroduction('newIntroduction')">
+                                                    保存
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="menu">
+                                <p>{{chapter.chapterText}}</br></p>
+                                <!--如果是本人开课可以编辑-->
+                                <div v-if="isMine" style="text-align:right">
+                                    <button class="btn btn-primary btn-lg" data-toggle="modal"
+                                            data-target="#changeMenu">
+                                        编辑
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="changeMenu" tabindex="-1" role="dialog"
+                                     aria-labelledby="changeMenuLable" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title" id="changeMenuLable">
+                                                    编辑课程介绍
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body" contentEditable="true">
+                                                <p id="chapterText">{{chapter.chapterText}}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary" onclick="updateChapter('chapterText')">
+                                                    保存
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="review">
+                                <p v-for="(comment,index) in comment">第{{index+1}}层：{{comment.remark}}</br></p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <br>
+                    <br>
+                </div>
+                <br>
+                <!--如果是我开的课-->
+                <div class="fh5co-more-contact" v-if="isMine">
+                    <div class="fh5co-narrow-content">
+                        <!--导航标签-->
+                        <ul id="myClass" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#select" data-toggle="tab">
+                                    选课情况
+                                </a>
+                            </li>
+                            <li><a href="#homework" data-toggle="tab">作业情况</a></li>
+                            <li><a href="#message" data-toggle="tab">我的消息</a></li>
+
+                        </ul>
+                        <!--对应内容-->
+                        <div id="myClassContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="select">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr v-for="(student,index) in students">
+
+                                        <td style="text-align: left">{{student.name}}</td>
+                                    </tr>
+                                    </tbody>
+
+                                    <tfoot>
+                                    <tr>
+                                        <td>
+                                            总人数: {{students.length}}
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="homework">
+
+                                <div class="panel panel-default" v-for="(homework,homeworkIndex) in homework">
+                                    <div class="panel-heading">
+                                        <br class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion">
+                                            作业{{homeworkIndex+1}}：{{homework.homeworkName}}
+                                        </a>
+                                        </br>
+                                        <p>
+                                            要求：{{homework.details}}
+                                        </p>
+                                        </h4>
+                                    </div>
+
+                                    <div class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <td>
+                                                        学生姓名
+                                                    </td>
+                                                    <td>
+                                                        作业情况
+                                                    </td>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                <tr v-for="(student,index) in homework.studentList">
+                                                    <td>
+                                                        {{student.studentName}}
+                                                    </td>
+                                                    <td v-if="student.done == 'false'">
+                                                        未完成
+                                                    </td>
+                                                    <td v-else>
+                                                        已完成
+                                                    </td>
+
+                                                </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div v-if="isMine" style="text-align:right">
+                                    <button class="btn btn-primary btn-lg" data-toggle="modal"
+                                            data-target="#addHomework">
+                                        布置作业
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="addHomework" tabindex="-1" role="dialog"
+                                     aria-labelledby="changeIntroLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title">
+                                                    布置新的作业
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body" contentEditable="true">
+                                                <div class="form-group">
+                                                    <label for="homeworkName">作业标题</label>
+                                                    <input type="text" id="homeworkName" name="course_name" class="form-control"  placeholder="请输入作业标题" style="width: 60%">
+                                                    <!--<span id="startTime_msg"></span>-->
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="details">详细要求</label>
+                                                    <textarea type="text" id="details" name="course_name" class="form-control"  placeholder="请输入详细要求" style="width: 60%"></textarea>
+                                                    <!--<span id="startTime_msg"></span>-->
+                                                </div>
+                                            </div>
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                        onclick="addHomework('homeworkName','details')">
+                                                    提交
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="message">
+                                <table class="table table-hover">
+                                    <!--<caption style="text-align: center"><a href="allChat.html">进入班级群聊</a></caption>-->
+                                    <tbody>
+                                    <tr onclick="document.location.href='chat.html'" v-for="(message,index) in message">
+                                        <td><img :src="message.studentPhoto" width="40" height="40"
+                                                 class="img-circle"
+                                                 class="img-thumbnail"></td>
+                                        <td>{{message.studentName}}</td>
+                                        <td>{{message.messageContent}}</td>
+                                        <td style="text-align: right">{{message.messageTime}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="fh5co-footer" style="text-align:center">
+    <p>
+        <small>已经到底了哦</small>
+    </p>
+</div>
+
+
+<!-- jQuery -->
+<script src="js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="js/jquery.waypoints.min.js"></script>
+<!-- Flexslider -->
+<script src="js/jquery.flexslider-min.js"></script>
+
+<!--使用cookie-->
+<script src="http://code.changer.hk/jquery/plugins/jquery.cookie.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./data/blog.js"></script>
+<script src="./data/blogCourse.js"></script>
+
+
+<!-- MAIN JS -->
+<script src="js/main.js"></script>
+
+</body>
+</html>
+

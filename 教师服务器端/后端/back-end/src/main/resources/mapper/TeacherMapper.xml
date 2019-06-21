@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resources.mapper.TeacherMapper">
+
+    <!--根据用户名和密码查询老师-->
+    <select id="findTeacherLogin"  resultType="springboot.domain.Teacher">
+        SELECT  * FROM Teacher WHERE Teacher.email=#{email} AND Teacher.password=#{password}
+    </select>
+
+    <!--根据邮箱查询老师-->
+    <select id="findTeacherRegister" parameterType="java.lang.String" resultType="springboot.domain.Teacher">
+        SELECT  * FROM Teacher WHERE email=#{email}
+    </select>
+
+    <!--增加老师-->
+    <insert id="addTeacher" parameterType="springboot.domain.Teacher"
+            useGeneratedKeys="true" keyProperty="teacherID">
+        insert into Teacher (techName, password, email, phone)
+        values (#{techName}, #{password}, #{email}, #{phone})
+    </insert>
+
+    <!--根据cookie的ID查找教师信息-->
+    <select id="findTeacherByID" resultType="springboot.domain.Teacher">
+        select * from Teacher WHERE teacherID=#{teacherID}
+    </select>
+
+    <!--更新教师信息-->
+    <update id="updateTeacher">
+        UPDATE  Teacher
+        SET techName=#{techName},phone=#{phone},introduction=#{introduction}
+        WHERE teacherID=#{teacherID}
+    </update>
+
+</mapper>

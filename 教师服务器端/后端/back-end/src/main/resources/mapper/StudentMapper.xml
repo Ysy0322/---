@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resources.mapper.StudentMapper">
+
+    <!--<select id="findUserById" parameterType="int" resultType="springboot.domain.User">-->
+    <!--select * from User where userID = #{userID}-->
+    <!--</select>-->
+    <!--<?xml version="1.0" encoding="UTF-8" ?>-->
+    <!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >-->
+    <!--<mapper namespace="springboot.dao.StudentDao">-->
+    <!--<resultMap id="BaseResultMap" type="springboot.domain.Student">-->
+    <!--<result column="student_number" property="student_number" />-->
+    <!--<result column="student_name" property="name" />-->
+    <!--<result column="class_name" property="class_name" />-->
+    <!--<result column="department" property="department" />-->
+    <!--<result column="mail" property="mail" />-->
+    <!--<result column="start_year" property="start_year" />-->
+    <!--<result column="graduate_year" property="graduate_year" />-->
+    <!--<result column="description" property="description" />-->
+    <!--</resultMap>-->
+
+    <!--<sql id="Base_Column_List">-->
+    <!--student_number, student_name, class_name, department, mail, start_year, graduate_year, description-->
+    <!--</sql>-->
+
+    <!--<select id="findByNumber" resultMap="BaseResultMap" parameterType="java.lang.String">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from student-->
+    <!--where student_number = #{student_number}-->
+    <!--</select>-->
+
+    <!--<select id="findByName" resultMap="BaseResultMap" parameterType="java.lang.String">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from student-->
+    <!--where student_name = #{student_name}-->
+    <!--</select>-->
+
+    <!--<select id="findAllStudent" resultMap="BaseResultMap" >-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from student-->
+    <!--</select>-->
+
+    <!--<insert id="saveStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="student_number">-->
+    <!--insert into-->
+    <!--student(student_number,student_name,class_name,department,mail,start_year,graduate_year,description)-->
+    <!--values-->
+    <!--(#{student_number},#{student_name},#{class_name},#{department},#{mail},#{start_year},#{graduate_year},#{description})-->
+    <!--</insert>-->
+
+    <!--<update id="modifyStudent" parameterType="Student">-->
+    <!--update-->
+    <!--student-->
+    <!--set-->
+    <!--<if test="student_name!=null">-->
+    <!--student_name = #{student_name},-->
+    <!--</if>-->
+    <!--<if test="class_name!=null">-->
+    <!--class_name = #{class_name},-->
+    <!--</if>-->
+    <!--<if test="department!=null">-->
+    <!--department = #{department}-->
+    <!--</if>-->
+    <!--<if test="mail!=null">-->
+    <!--mail = #{mail},-->
+    <!--</if>-->
+    <!--<if test="start_year!=null">-->
+    <!--start_year = #{start_year},-->
+    <!--</if>-->
+    <!--<if test="graduate_year!=null">-->
+    <!--graduate_year = #{graduate_year}-->
+    <!--</if>-->
+    <!--<if test="graduate_year!=null">-->
+    <!--description = #{description}-->
+    <!--</if>-->
+    <!--where-->
+    <!--student_number = #{student_number}-->
+    <!--</update>-->
+    <!-- student_name = #{student_name},
+     class_name = #{class_name},
+     department = #{department},
+     mail = #{mail},
+     start_year = #{start_year},
+     graduate_year = #{graduate_year},
+     description = #{description}-->
+    <!--<delete id="deleteStudent" parameterType="Student">-->
+    <!--delete from-->
+    <!--student-->
+    <!--where-->
+    <!--student_number = #{student_number}-->
+    <!--</delete>-->
+    <!--</mapper>-->
+    <select id="findByName" parameterType="java.lang.String" resultType="springboot.domain.Student">
+    select * from Student where student_name = #{student_name}
+  </select>
+
+    <select id="findByNumber" parameterType="java.lang.String" resultType="springboot.domain.Student">
+    select * from Student where student_number = #{student_number}
+  </select>
+
+    <select id="findAllStudent" resultType="springboot.domain.Student">
+    select * from Student
+  </select>
+
+    <insert id="addStudent" parameterType="springboot.domain.Student" useGeneratedKeys="true"
+            keyProperty="student_number">
+   insert into
+	student(student_number,student_name,class_name,department,mail,start_year,graduate_year,description)
+	values
+	(#{student_number},#{student_name},#{class_name},#{department},#{mail},#{start_year},#{graduate_year},#{description})
+	</insert>
+
+    <update id="modifyStudent" parameterType="java.util.Map" keyProperty="student_number">
+        update
+        student
+        set
+        <if test="student_name!=null">
+            student_name = #{student_name},
+        </if>
+        <if test="class_name!=null">
+            class_name = #{class_name},
+        </if>
+        <if test="department!=null">
+            department = #{department},
+        </if>
+        <if test="mail!=null">
+            mail = #{mail},
+        </if>
+        <if test="start_year!=null">
+            start_year = #{start_year},
+        </if>
+        <if test="graduate_year!=null">
+            graduate_year = #{graduate_year},
+        </if>
+        <if test="description!=null">
+            description = #{description}
+        </if>
+        where
+        student_number = #{student_number};
+    </update>
+
+    <delete id="deleteStudent" parameterType="java.lang.String">
+	delete from
+	student
+	where
+	student_number = #{student_number}
+	</delete>
+</mapper>

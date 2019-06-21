@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resources.mapper.CourseMapper">
+
+    <!--查询所有的课程信息用于blog页面-->
+    <select id="findAllCourse" resultType="springboot.domain.Course">
+        select * from Course
+    </select>
+
+    <!--查询某一个课程信息用于blogCourse页面-->
+    <select id="findCourseByID" resultType="springboot.domain.Course">
+        select * from Course where courseID = #{courseID}
+    </select>
+
+    <!--根据课程id查找教师名字-->
+    <select id="findTeacherNameByCourseID" resultType="springboot.domain.Teacher">
+        SELECT DISTINCT techName,Teacher.teacherID AS teacherID
+        FROM Course,Teacher
+        WHERE Course.courseID=#{courseID}
+        AND Course.teacherID=Teacher.teacherID;
+    </select>
+
+    <!--根据课程id查找章节名称-->
+    <select id="findChapterByCourseID" resultType="springboot.domain.Chapter">
+        SELECT *
+        FROM Chapter
+        WHERE Chapter.courseID = #{courseID};
+    </select>
+
+    <!--根据课程id查找评论-->
+    <select id="findCommentByCourseID" resultType="springboot.domain.Comments">
+        SELECT remark
+        FROM Comments
+        WHERE Comments.courseID = #{courseID};
+    </select>
+
+    <!--根据课程id查找学生名单-->
+    <select id="findStudentsByCourseID" resultType="springboot.domain.Student">
+        SELECT studentName
+        FROM Student,CourseToken
+        WHERE CourseToken.courseID = #{courseID}
+        AND CourseToken.studentID = Student.studentID;
+    </select>
+
+    <!--根据课程id查找学生作业名称-->
+    <select id="findHomeworkByCourseID" resultType="springboot.domain.Homework">
+        SELECT *
+        FROM Homework
+        WHERE courseID = #{courseID};
+    </select>
+
+    <!--根据作业的id查找学生id和完成情况-->
+    <select id="findHomeworkTokenByID" resultType="springboot.domain.HomeworkToken">
+        SELECT *
+        FROM HomeworkToken,Student
+        WHERE homeworkID = #{homeworkID}
+        AND HomeworkToken.studentID = Student.studentID;
+    </select>
+
+    <!--根据学生的id查找学生姓名-->
+    <select id="findStudentNameByCourseID" resultType="springboot.domain.Student">
+        SELECT studentName
+        FROM Student
+        WHERE studentID = #{studentID};
+    </select>
+
+    <!--myCourse-->
+    <!--根据教师的id查找开课信息-->
+    <select id="findCoursesByTeacherID" resultType="springboot.domain.Course">
+        SELECT *
+        FROM Course
+        WHERE teacherID = #{teacherID};
+    </select>
+
+    <!--根据课程id查找章节信息-->
+    <select id="findChaptersByCourseID" resultType="springboot.domain.Chapter">
+        SELECT *
+        FROM Chapter
+        WHERE courseID = #{courseID};
+    </select>
+
+    <!--修改章节-->
+    <update id="updateChapter" parameterType="springboot.domain.Chapter">
+        update Chapter
+        set chapterText = #{chapterText}
+        where courseID = #{courseID}
+    </update>
+
+    <!--增加新章节-->
+    <insert id="addChapter" parameterType="springboot.domain.Chapter">
+        insert into Chapter (chapterText, courseID)
+        values (#{chapterText}, #{courseID})
+    </insert>
+
+
+    <!--修改课程介绍-->
+    <update id="updateIntroduction" parameterType="springboot.domain.Course">
+        update Course
+        set introduction = #{introduction}
+        where courseID = #{courseID}
+    </update>
+
+
+    <!--INSERT-->
+    <!-- 开设新课程 -->
+    <insert id="addCourse" parameterType="springboot.domain.Course" useGeneratedKeys="true" keyProperty="courseID">
+        insert into Course (courseName, instruction, startTime, price,introduction,courseImageURL,teacherID)
+        values (#{courseName}, #{instruction}, #{startTime}, #{price}, #{introduction},"images/img-1.jpg",#{teacherID})
+    </insert>
+
+    <!-- 布置作业 -->
+    <insert id="addHomework" parameterType="springboot.domain.Homework" useGeneratedKeys="true" keyProperty="courseID">
+        insert into Homework (homeworkName,details,courseID)
+        values (#{homeworkName}, #{details}, #{courseID})
+    </insert>
+
+
+
+</mapper>
